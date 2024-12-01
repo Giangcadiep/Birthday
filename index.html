@@ -13,16 +13,18 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
         }
 
         .letter {
-            width: 400px;
-            height: 700px;
+            width: 450px;
+            height: 750px;
             position: relative;
             perspective: 1000px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
         }
 
         .letter-inner {
@@ -68,7 +70,8 @@
             flex-direction: column;
             padding: 10px;
             box-sizing: border-box;
-            background: linear-gradient(to bottom right, #f3f3f3, #f0c4c4); /* Màu nền gradient cho mặt sau */
+            background: linear-gradient(to bottom right, #f3f3f3, #f0c4c4);
+            overflow-y: auto; /* Thêm cuộn dọc cho mặt sau */
         }
 
         .upper-section {
@@ -81,7 +84,7 @@
         }
 
         .upper-section img {
-            width: 80%;
+            width: 100%;
             max-width: 350px;
             border-radius: 5px;
             margin-bottom: 15px;
@@ -112,7 +115,6 @@
             border-radius: 5px;
         }
 
-        
         .christmas-message {
             font-size: 16px;
             color: #333;
@@ -131,6 +133,44 @@
         /* Ẩn player âm thanh */
         #audioPlayer {
             display: none;
+        }
+
+        /* Media queries để hỗ trợ thiết bị di động */
+        @media screen and (max-width: 600px) {
+            .letter {
+                width: 90%; /* Thiết lập chiều rộng để phù hợp với màn hình nhỏ */
+                height: auto; /* Chiều cao tự động */
+            }
+
+            .letter-inner {
+                transform-style: preserve-3d;
+                transition: transform 0.8s;
+            }
+
+            .letter-front {
+                font-size: 18px;
+                padding: 15px;
+            }
+
+            .upper-section img {
+                width: 100%;
+                max-width: 300px;
+                height: auto;
+            }
+
+            .lower-section {
+                text-align: center;
+                padding: 10px;
+            }
+
+            #christmasTree, #newImageContainer img {
+                width: 80%;
+                max-width: 300px;
+            }
+
+            .christmas-message {
+                font-size: 14px; /* Giảm font cho dễ đọc trên màn hình nhỏ */
+            }
         }
     </style>
 </head>
@@ -189,22 +229,21 @@
 
         // Thêm nhạc vào lúc lật mặt sau
         function flipLetter() {
-    const letterInner = document.getElementById('letterInner');
-    letterInner.classList.toggle('flipped');
+            const letterInner = document.getElementById('letterInner');
+            letterInner.classList.toggle('flipped');
 
-    if (letterInner.classList.contains('flipped')) {
-        const audioPlayer = document.getElementById('audioPlayer');
-        audioPlayer.play();
+            if (letterInner.classList.contains('flipped')) {
+                const audioPlayer = document.getElementById('audioPlayer');
+                audioPlayer.play();
 
-        startTyping('message', lines, () => {
-            document.getElementById('christmasTree').style.display = 'block';
-            startTyping('christmasMessage', christmasLines, () => {
-                document.getElementById('newImageContainer').style.display = 'block';
-            });
-        });
-    }
-}
-
+                startTyping('message', lines, () => {
+                    document.getElementById('christmasTree').style.display = 'block';
+                    startTyping('christmasMessage', christmasLines, () => {
+                        document.getElementById('newImageContainer').style.display = 'block';
+                    });
+                });
+            }
+        }
 
         function startTyping(elementId, textLines, callback) {
             const element = document.getElementById(elementId);
@@ -232,5 +271,4 @@
             typeLine();
         }
     </script>
-</body>
-</html>
+</
